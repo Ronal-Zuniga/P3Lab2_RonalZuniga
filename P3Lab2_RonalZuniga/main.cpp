@@ -5,6 +5,7 @@
 using namespace std;
 int menu();
 int numero_random(int inicio, int limite);
+void triangulo_pascal(int n, int max_n, int res_anterior[], int salida[]);
 void desviacion_estandar();
 void grafico_barras();
 
@@ -13,6 +14,23 @@ int main() {
 	while((opcion = menu()) != 4) {
 		switch(opcion) {
 			case 1: {
+				int max_n;
+				cout << endl;
+				cout << "**Triangulo de Pascal**" << endl;
+				cout << "Ingrese el numero de iteraciones: ";
+				cin >> max_n;
+				cout << endl;
+				while(max_n > 99 || max_n < 1) {
+					cout << "Las iteraciones deben ser entre 1 y 99" << endl;
+					cout << "Ingrese el numero de iteraciones: ";
+					cin >> max_n;
+					cout << endl;
+				}
+				int res_anterior[100] = {0};
+				int salida[100] = {0};
+				triangulo_pascal(0, max_n, res_anterior, salida);
+				cout << endl;
+				cout << endl;
 				break;
 			}
 
@@ -123,10 +141,10 @@ void grafico_barras() {
 	cout << "]" << endl;
 	cout << endl;
 	for (int i = 0; i < 10; i++) {
-		if(i+1 == 10){
+		if(i+1 == 10) {
 			cout << i + 1 << " ";
-		} else{
-			cout << i + 1 << "  ";	
+		} else {
+			cout << i + 1 << "  ";
 		}
 		for (int x = 0; x < primer_arreglo[i]; x++)
 			cout << car1 << " ";
@@ -139,4 +157,24 @@ void grafico_barras() {
 	}
 }
 
-//void triangulo_pascal(int n, int max_n)
+void triangulo_pascal(int n, int max_n, int res_anterior[], int salida[]) {
+	int arreglo[] = {0};
+	if(n <= max_n) {
+		salida[0] = 1;
+		int aux = 0;
+		for(int i = 1; i < n; i++) {
+			salida[i] = res_anterior[aux] + res_anterior[i];
+			aux++;
+		}
+		salida [n] = 1;
+		cout << endl;
+		for(int x = 0; x <= n; x++) {
+			if(salida[x] != 0) {
+				cout << salida[x] << " ";
+			}
+		}
+		triangulo_pascal(n + 1, max_n, salida, arreglo);
+	} else{
+		return;
+	}
+}
